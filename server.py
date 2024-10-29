@@ -1,6 +1,6 @@
+import time
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
-import kill
 import cameras
 import os
 import json
@@ -29,6 +29,7 @@ def get_state():
         print(data)
         return jsonify(data)
 
+
 @app.route("/stateIndex/<int:id>", methods=["POST", "GET"])
 def get_state_index(id):
     with open(statepath) as f:
@@ -38,75 +39,48 @@ def get_state_index(id):
         return jsonify(camera_data)
 
 
-
 @app.route("/getProcesses", methods=["POST", "GET"])
 def getProcesses():
-    return jsonify(kill.getProcesses())
+    return jsonify(cameras.getProcesses())
 
 
 @app.route("/killCameras", methods=["POST"])
 def killCameras():
-    state = kill.killCameras()
+    state = cameras.killCameras()
     return jsonify({"status": state})
+
 
 @app.route("/rescanCams", methods=["POST", "GET"])
 def rescanCameras():
     cams = cameras.scanCam()
-    state={
-        "cameras":[]
-    }
-    i =0
-    for cam in cams:
-        state["cameras"].append({
-            "video port": cam,
-            "height": 480,
-            "width": 640,
-            "fps": 25,
-            "stream port": (8000 + i),
-            "brightness": "default",
-            "contrast": "default",
-            "saturation": "default",
-            "hue": "default",
-            "gamma": "default",
-            "sharpness": "default",
-            "backlight compensation": "default",
-            "white balance": "default",
-            "gain": "default",
-            "color effect": "default",
-            "rotate": "default",
-            "flip vertical": "default",
-            "flip horizontal": "default"
-        })
-        i+=1
-        
-    with open(statepath, 'w') as f: 
-        json.dump(state, f, indent=4) 
-    # with open(statepath) as f:
-        # data = json.load(f)
-        # print(data)
-        return jsonify(state)
-    # return jsonify({"status": state})
+    return jsonify({"status": cams})
+
 
 @app.route("/startup", methods=["POST"])
 def startup():
-    kill.killCameras()
+    cameras.killCameras()
+    time.sleep(0.5)
     cameras.startup()
     return jsonify({"status": "done"})
 
-@app.route("/killSingle/<int:pid>",methods=["POST"])
+
+@app.route("/killSingle/<int:pid>", methods=["POST"])
 def kill_single(pid):
-    kill.killPID(pid)
+    cameras.killPID(pid)
     return jsonify({"status": "done"})
 
-@app.route("/killSingleIndex/<int:id>",methods=["POST","GET"])
+
+@app.route("/killSingleIndex/<int:id>", methods=["POST", "GET"])
 def kill_single_index(id):
-    kill.killIndex(id)
+    cameras.killIndex(id)
     return jsonify({"status": "done"})
 
-@app.route("/startSingle/<int:id>",methods=["POST"])
+
+@app.route("/startSingle/<int:id>", methods=["POST"])
 def starte_Sinlge(id):
     cameras.singleCam(id)
     return jsonify({"status": "done"})
+
 
 @app.route("/update-camera/<int:id>", methods=["PATCH", "POST"])
 def update_camera(id):
@@ -133,12 +107,9 @@ def update_camera(id):
             json.dump(state, file, indent=4)
 
         return jsonify({"message": "Camera updated successfully", "camera": camera})
-        
-        
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 
 if __name__ == "__main__":
