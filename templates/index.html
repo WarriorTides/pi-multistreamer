@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MJPEG Streams</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <h1 style="text-align:center;">MJPEG Streams</h1>
+    <button onclick="startup()">Startup Cameras</button>
+    <button onclick="kill()">Kill Cameras</button>
+    <button onclick="getCams()">Get Cameras</button>
+
+    <div id="stream-container" class="stream-container">
+
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

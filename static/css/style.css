@@ -1,0 +1,66 @@
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+label {
+    font-weight: bold;
+}
+
+input,
+button {
+    /* width: 1%; */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+}
+
+.stream-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.stream {
+    text-align: center;
+}
+
+.stream img {
+    width: 640px;
+    height: 480px;
+    display: block;
+    margin: 0 auto;
+}
+
+.stream label {
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+}
