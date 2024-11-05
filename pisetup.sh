@@ -34,7 +34,7 @@ apt install python3-flask -y
 
 
 crontab -l > crontab_new
-echo "@reboot /usr/bin/python3 /home/pi/picamera/server.py" >> crontab_new
+echo "@reboot /usr/bin/python3 /home/pi/pi-multistreamer/server.py" >> crontab_new
 crontab crontab_new
 rm crontab_new
 
