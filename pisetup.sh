@@ -30,7 +30,7 @@ apt install python3-pip -y
 apt install python3-flask-cors -y
 apt install python3-flask -y
 #Make cams launch on startup
-/usr/bin/python3 /home/pi/picamera/cameras.py
+/usr/bin/python3 /home/pi/pi-multistreamer/cameras.py
 
 
 crontab -l > crontab_new
