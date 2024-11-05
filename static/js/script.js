@@ -15,6 +15,18 @@ function toggleStream(streamId, url) {
 
 // function
 
+
+function rescan() {
+  console.log(IP_ADRESS)
+  fetch('http://' + IP_ADRESS + '/rescanCams', {
+    method: 'POST'
+  }).then((response) => {
+    console.log(response)
+    getCams()
+  });
+
+}
+
 function startup() {
   console.log(IP_ADRESS)
   fetch('http://' + IP_ADRESS + '/startup', {
