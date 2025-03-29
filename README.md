@@ -111,6 +111,59 @@ curl http://<PI_IP>/getProcesses
 ```
 ---
 
+### PATCH/POST `/update-camera/<id>`
+
+Updates configuration values for a specific camera listed in `state.json`.
+
+**Parameters:**
+
+- `id` — Integer index of the camera in the `cameras` array (e.g., `0` for the first camera) can be found using getProcesses
+
+**Payload (JSON):**
+
+You can pass any subset of the configurable camera properties. Only keys present in the `state.json` for the selected camera will be updated. Invalid keys will return a `400` error.
+
+**Example Request:**
+
+```bash
+curl -X POST http://<PI_IP>:5000/update-camera/0 \
+  -H "Content-Type: application/json" \
+  -d '{
+        "brightness": 1500,
+        "fps": 20,
+        "width": 640
+      }'
+```
+
+**Example Response:**
+
+```json
+{
+  "message": "Camera updated successfully",
+  "camera": {
+    "video port": "/dev/video0",
+    "height": 720,
+    "width": 640,
+    "fps": 20,
+    "stream port": 8000,
+    "brightness": 1500,
+    ...
+  }
+}
+```
+⚠️ Not all webcams support all controls. Unsupported settings are safely ignored.
+
+
+**Error Codes:**
+
+- `404 Not Found`: Invalid camera ID
+- `400 Bad Request`: Invalid camera property
+- `500 Internal Server Error`: On file access or unexpected issues
+
+---
+
+
+
 ## 📺 Viewing Streams
 
 Each camera stream is available at:
