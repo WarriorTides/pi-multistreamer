@@ -1,8 +1,6 @@
 #!/bin/bash
 # WE ARE USING RASPBERRYPI 4B with 64bit bookworm
 
-
-
 if [[ "$(id -u)" != 0 ]]
   then echo "Please run as root"
   exit
@@ -10,13 +8,11 @@ fi
 
 
 # Check if the PI is online
-echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1
-
-if [ $? -eq 0 ]; then
-    echo "Online"
+if ping -c 1 -W 2 1.1.1.1 > /dev/null; then
+    echo "Wi-Fi is connected. Continuing..."
 else
-    echo "Offline"
-    exit
+    echo "No Wi-Fi connection. Exiting."
+    exit 1
 fi
 
 # Update and upgrade
@@ -25,8 +21,6 @@ apt upgrade -y
 
 dpkg -l | grep ustreamer || apt install ustreamer -y
 
-
-apt install python3-pip -y
 apt install python3-flask-cors -y
 apt install python3-flask -y
 #Make cams launch on startup
